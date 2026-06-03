@@ -16,7 +16,7 @@ class DFA:
         self.q0     = initial_state   # initial state
         self.F      = set(final_states)    # final states
         self._state = initial_state   # current state
-        self.show()  # show the DFA definition for verification
+        # Call show() explicitly when the DFA definition needs to be displayed.
 
 
     def reset(self):
@@ -63,4 +63,5 @@ def test1():
     print(dfa.process(['otro']))    # False
     print(dfa.process(['adios']))   # True
     print(dfa.Q)
-test1()
+if __name__ == '__main__':
+    test1()
