@@ -23,7 +23,7 @@ class DFA:
         # q0 in Q, F subset of Q, transitions defined for all states and symbols
         self._validate()         
         self.show()  # show the DFA definition for verification
-        #self._complete_error_state()  # ensure all undefined transitions go to q_error
+        self._complete_error_state()  # ensure all undefined transitions go to q_error
         self._state = self.q0  # start at the initial state
 
     def _validate(self):
@@ -59,9 +59,27 @@ class DFA:
         return self._state in self.F  # True if in accepting states
 
     # we define the method reset to reset the automaton to the initial state
-    #def reset(self):
-
-
+    def reset(self):
+        '''This function resets the automaton to the initial state.'''
+        self._state = self.q0
+    def transition(self, symbol):
+        '''Apply a transition using the required symbol.'''
+        self._state = self.delta.get(
+            (self._state, symbol), 
+            self.q_error
+            ) 
+    def _complete_error_state(self):
+        '''Ensure all undefined transitions go to q_error.
+        
+        this method iterates over all states and symbols, and if a transition 
+        is not defined in delta, it adds a transition to q_error. 
+        This ensures that the DFA is complete and can handle any input symbol from any 
+        state without crashing.
+        '''
+        for state in self.Q: # for each state in Q
+            for symbol in self.sigma: # for each symbol in the alphabet
+                if (state, symbol) not in self.delta: # if the transition is not defined
+                    self.delta[(state, symbol)] = self.q_error # add the transition to q_error
     def show(self):
         '''Shows the automaton definition in a readable format.'''
         print("DFA Definition:")
@@ -75,7 +93,7 @@ class DFA:
 
 
 def test1():
-    states = {'q0','q_hola','q_adios','q_error'}
+    states = {'q0','q0','q_hola','q_adios','q_error'}
     alphabet = {'hola','adios'}
     transitions = {
         ('q0','hola'):'q_hola',
@@ -86,4 +104,5 @@ def test1():
     print(dfa.process(['hola']))    # True
     print(dfa.process(['otro']))    # False -> va a 'q_error'
     print(dfa.process(['adios']))   # True
+    print(dfa.Q)
 test1()
