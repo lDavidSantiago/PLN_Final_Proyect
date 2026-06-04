@@ -34,9 +34,11 @@ class TreeNode:
     # ── Visual representation ──────────────────────────────────────────────
 
     def _leaf_desc(self):
-        if self.token.valor != self.token.valor_norm:
+        if self.token is not None and self.token.valor != self.token.valor_norm:
             return f"{self.label}  '{self.token.valor}' ({self.token.valor_norm})"
-        return f"{self.label}  '{self.token.valor}'"
+        if self.token is not None:
+            return f"{self.label}  '{self.token.valor}'"
+        return self.label
 
     def __str__(self):
         lines = []
@@ -52,8 +54,8 @@ class TreeNode:
         return '\n'.join(lines)
 
     def _str_aux(self, lines, prefix, is_last):
-        connector = '└── ' if is_last else '├── '
-        extension = '    ' if is_last else '│   '
+        connector = '`-- ' if is_last else '|-- '
+        extension = '    ' if is_last else '|   '
 
         if self.token is not None:
             desc = self._leaf_desc()
@@ -67,7 +69,7 @@ class TreeNode:
             child._str_aux(lines, prefix + extension, is_last=(i == len(self.children) - 1))
 
     def display(self):
-        print("── Derivation Tree ─────────────────────────────────")
+        print("-- Derivation Tree ----------------------------------")
         print(str(self))
         print()
 
@@ -85,7 +87,7 @@ class TreeNode:
 
     def display_productions_used(self):
         """Prints productions in pre-order = left-most derivation sequence."""
-        print("── Productions used ─────────────────────────────────")
+        print("-- Productions used ---------------------------------")
         for prod in self._collect_productions():
             print(f"  {prod}")
         print()
