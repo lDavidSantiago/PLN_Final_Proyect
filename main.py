@@ -2,9 +2,10 @@ from grammar import build_cfg
 from lexer import Lexer
 from parser import ParseError, Parser
 from semantic import SemanticError, Semantics
+from simulator import Simulator
 
 
-def run_case(lexer, parser, text):
+def run_case(lexer, parser, simulator, text):
     print("=" * 70)
     print(f"Entrada: {text}")
 
@@ -32,12 +33,23 @@ def run_case(lexer, parser, text):
         return
 
     semantics.display(meaning)
-
+    simulator.show(meaning)
+CASOS_DEMO = [
+    "crea una carpeta llamada proyectos",
+    "mueve los archivos pdf a proyectos",
+    "elimina la carpeta vieja",
+    "copia el archivo txt a respaldo",
+    "renombra la carpeta vieja llamada nueva",
+    "lista los archivos",
+    "lista las carpetas",
+    "crea una carpeta llamada datos y mueve los archivos csv ahi",
+]
 
 def main():
     cfg = build_cfg()
     lexer = Lexer()
     parser = Parser(cfg)
+    simulator = Simulator()
 
     print("No terminales (V):", sorted(cfg.V))
     print("Terminales (T):", sorted(cfg.T))
@@ -50,7 +62,7 @@ def main():
     ]
 
     for case in cases:
-        run_case(lexer, parser, case)
+        run_case(lexer, parser, simulator, case)
 
 
 if __name__ == "__main__":
