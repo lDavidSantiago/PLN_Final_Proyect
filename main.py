@@ -1,6 +1,7 @@
 from grammar import build_cfg
 from lexer import Lexer
 from parser import ParseError, Parser
+from semantic import SemanticError, Semantics
 
 
 def run_case(lexer, parser, text):
@@ -18,9 +19,19 @@ def run_case(lexer, parser, text):
         error.show_error()
         return
 
+    semantics = Semantics()
+
     print("\nProducciones usadas:")
     tree.display_productions_used()
     tree.display()
+
+    try:
+        meaning = semantics.extract(tree)
+    except SemanticError as error:
+        print(f"Semantic error: {error}")
+        return
+
+    semantics.display(meaning)
 
 
 def main():
