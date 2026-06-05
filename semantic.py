@@ -43,8 +43,16 @@ class Semantics:
 
         cmd1 = self._extract_cmd(node.children[0])
         cmd2 = self._extract_cmd(node.children[2])
+        self._solve_referential_destination(cmd2, cmd1)
         return [cmd1, cmd2]
-
+    def _solve_referential_destination(self,command,previous_command):
+        destination = command.get('destination')
+        if destination not in ('ahi', 'ahí'):
+            return destination
+        reference = previous_command.get('destination') or previous_command.get('name')
+        
+        if reference:
+            command['destination'] = reference
     def _extract_cmd(self, node):
         if len(node.children) < 2:
             raise SemanticError("CMD must contain at least VERBS and OBJ.")
