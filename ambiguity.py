@@ -173,9 +173,9 @@ class AmbiguityResolver:
         response = self.detector.analize(tokens)
         if not response.is_ambiguous:
             return None
-        print("── Ambiguedad detectada ────────────────────────────")
+        print("-- Ambiguedad detectada ----------------------------")
         print(response.message)
-        print("── Interpretaciones posibles ───────────────────────")
+        print("-- Interpretaciones posibles -----------------------")
         for interpretation in response.interpretations:
             print(interpretation)
         print("  El sistema NO ejecutara la accion hasta resolver la ambiguedad.")
@@ -197,9 +197,9 @@ class AmbiguityResolver:
         if not result.is_ambiguous:
             print("No ambiguity detected.")
             return
-        print("── Ambiguedad detectada ────────────────────────────")
+        print("-- Ambiguedad detectada ----------------------------")
         print(result.message)
-        print("── Interpretaciones posibles ───────────────────────")
+        print("-- Interpretaciones posibles -----------------------")
         for interpretation in result.interpretations:
             print(interpretation)
         print("  El sistema NO ejecutara la accion hasta resolver la ambiguedad.")

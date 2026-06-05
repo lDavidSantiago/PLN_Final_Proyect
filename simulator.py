@@ -28,7 +28,7 @@ class Simulator:
 	def show(self, semantic):
 		"""Prints the simulator result with a header."""
 		result = self.generate(semantic)
-		print("── Simulated command ──")
+		print("-- Simulated command --")
 		if isinstance(result, list):
 			for i, cmd in enumerate(result, 1):
 				print(f"  [{i}] {cmd}")
